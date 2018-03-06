@@ -165,21 +165,21 @@ int main(int argc, const char** argv)
         // equalizeHist(fgmask,fgmask);
         medianBlur(fgmask, fgmask, 7);
 
-        medianBlur(fgimg, fgimg, 7);
+        // medianBlur(fgimg, fgimg, 7);
          
         // bilateralFilter(fgmask,fgmask,5,1.0,1.0);
         imshow("foreground mask", fgmask);
         // imshow("foreground image", fgimg);
 
-        Canny( fgimg, fgimg,0 ,0, 3);
-        imshow("foreground mask2", fgimg);
+        // Canny( fgimg, fgimg,0 ,0, 3);
+        // imshow("foreground mask2", fgimg);
 
-        Mat dst;
-        addWeighted( fgimg,1, fgmask,1,0, dst,-1);
-        imshow( "Linear Blend", dst );
+        // Mat dst;
+        // addWeighted( fgimg,1, fgmask,1,0, dst,-1);
+        // imshow( "Linear Blend", dst );
 
         vector<vector<Point> > contours;
-        findContours(dst,contours,CV_RETR_EXTERNAL,CV_CHAIN_APPROX_NONE, Point(0, 0));
+        findContours(fgmask,contours,CV_RETR_EXTERNAL,CV_CHAIN_APPROX_NONE, Point(0, 0));
         std::cout << "find : " << contours.size() << std::endl;
         // for (size_t idx = 0; idx < contours.size(); idx++) {
         // if(contourArea(contours[idx]) >50){
@@ -214,15 +214,15 @@ int main(int argc, const char** argv)
         // Mat drawing = Mat::zeros( detected_edges.size(), CV_8UC3 );
         for( int i = 0; i< contours.size(); i++ )
            {
-             if(contourArea(contours[i]) >1000){
+             if(contourArea(contours[i]) >1200){
                 stringstream seq;
                 seq << pic_seq;
                 Rect r = boundRect[i];
-                // cv::Mat croppedImage = frame(r);
-                // cv::imwrite( "./image/Gray_Image"+seq.str()+".jpg", croppedImage );
-                // pic_seq++;
+                cv::Mat croppedImage = frame(r);
+                cv::imwrite( "./image/Gray_Image"+seq.str()+".jpg", croppedImage );
+                pic_seq++;
                 cv::rectangle(frame, boundRect[i].tl(), boundRect[i].br(),  Scalar(255,0,0), 2, 8, 0 );
-                circle( frame, center[i], (int)radius[i], Scalar(255,255,0), 2, 8, 0 );
+                // circle( frame, center[i], (int)radius[i], Scalar(255,255,0), 2, 8, 0 );
                 // circle( frame, mc[i], 20, Scalar(255,0,0), 2, 8, 0 );
                 }
              // circle( frame, mc[i], 20, Scalar(255,0,0), -1, 8, 0 );

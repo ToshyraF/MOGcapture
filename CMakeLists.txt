@@ -1,0 +1,5 @@
+cmake_minimum_required(VERSION 2.8)
+project( MOGcapture )
+find_package( OpenCV REQUIRED )
+add_executable( MOGcapture MOGcapture.cpp )
+target_link_libraries( MOGcapture ${OpenCV_LIBS} )
